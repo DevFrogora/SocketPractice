@@ -30,9 +30,10 @@ class Game {
             System.out.println("Not your turn");
         } else if (player.opponent == null) {
             System.out.println("You don't have an opponent yet");
+        } else {
+            currentPlayer = currentPlayer.opponent;
         }
 
-        currentPlayer = currentPlayer.opponent;
     }
 
     class Player implements Runnable {
