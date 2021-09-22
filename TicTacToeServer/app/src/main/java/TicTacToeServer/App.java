@@ -12,7 +12,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         try (var listener = new ServerSocket(58901)) {
             System.out.println("Tic Tac Toe Server is Running...");
-            var pool = Executors.newFixedThreadPool(200);
+            var pool = Executors.newFixedThreadPool(20);
             // while (true) {
             Game game = new Game();
             pool.execute(game.new Player(listener.accept(), 'X'));
@@ -61,15 +61,26 @@ class Game {
             System.out.println("\t" + mark + " joined ! ");
             if (mark == 'X') {
                 currentPlayer = this;
+                System.out.println(this + " : " + currentPlayer);
                 output.println("MESSAGE Waiting for opponent to connect");
             } else {
-                opponent = currentPlayer;
-                opponent.opponent = this;
-                opponent.output.println("MESSAGE Your move");
+                if (currentPlayer == null) {
+                    System.out.println(this + " : " + currentPlayer);
+
+                    System.out.println("Current is null sorry");
+                } else {
+
+                    opponent = currentPlayer;
+                    opponent.opponent = this;
+                    opponent.output.println("MESSAGE Your move");
+                }
             }
             while (input.hasNextLine()) {
-                opponent.output.println(mark + " : " + input.nextLine());
-                System.out.println(mark + " : " + input.nextLine());
+                String temp = input.nextLine();
+                if (opponent != null) {
+                    opponent.output.println(mark + " : " + temp);
+                }
+                System.out.println(mark + " : " + temp);
                 move(this);
             }
         }
