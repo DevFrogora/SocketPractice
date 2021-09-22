@@ -35,7 +35,8 @@ class TicTacToeClient implements Runnable {
     @Override
     public void run() {
         while (in.hasNextLine() || in_keyboard.hasNextLine()) {
-            String input = in_keyboard.nextLine();
+            Scanner temp = in.hasNextLine() == true ? in : in_keyboard;
+            String input = temp.nextLine();
             out.println(input);
         }
 
