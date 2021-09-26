@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        try (var listener = new ServerSocket(58901)) {
+        try (var listener = new ServerSocket(58909)) {
             System.out.println("Tic Tac Toe Server is Running...");
             var pool = Executors.newFixedThreadPool(20);
             // while (true) {
@@ -55,6 +55,7 @@ class Game {
             try {
                 input = new Scanner(socket.getInputStream());
                 output = new PrintWriter(socket.getOutputStream(), true);
+                output.println("You joined and your opponent is : " + currentPlayer);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -78,12 +79,20 @@ class Game {
             }
             while (input.hasNextLine()) {
                 String temp = input.nextLine();
-                if (opponent != null) {
-                    opponent.output.println(mark + " : " + temp);
+                System.out.println("while loop" + temp);
+                if (temp.startsWith("A")) {
+                    System.out.println("We got A");
+
+                    if (opponent != null) {
+                        opponent.output.println(mark + " : " + temp);
+                        System.out.println(mark + " : " + temp);
+                        move(this);
+                    }
                 }
-                System.out.println(mark + " : " + temp);
-                move(this);
+
             }
+            System.out.println("exited while loop " + mark);
+
         }
 
     }

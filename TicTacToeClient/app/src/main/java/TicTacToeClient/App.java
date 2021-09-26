@@ -26,7 +26,7 @@ class TicTacToeClient implements Runnable {
 
     public TicTacToeClient(String serverAddress) throws Exception {
 
-        socket = new Socket(serverAddress, 58901);
+        socket = new Socket(serverAddress, 58909);
         in = new Scanner(socket.getInputStream());
         out = new PrintWriter(socket.getOutputStream(), true);
         in_keyboard = new Scanner(System.in);
@@ -34,10 +34,16 @@ class TicTacToeClient implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("I am in run " + in.hasNextLine());
         while (in.hasNextLine() || in_keyboard.hasNextLine()) {
+
+            // || in_keyboard.hasNextLine() ? in : in_keyboard
             Scanner temp = in.hasNextLine() ? in : in_keyboard;
             String input = temp.nextLine();
+            System.out.println("I am in while loop" + input);
             out.println(input);
+            System.out.println("> waiting on while loop");
+
         }
 
     }
